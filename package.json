@@ -1,0 +1,9 @@
+{
+  "name": "gsyf-pusulasi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GSYF Pusulası — Türkiye'deki girişim sermayesi yatırım fonlarını keşfetmeye yarayan tek dosyalık site prototipi.",
+  "scripts": {
+    "fetch-funds": "node scripts/fetch_funds.js"
+  }
+}

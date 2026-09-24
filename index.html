@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>GSYF Pusulası — Girişim Sermayesi Yatırım Fonları Rehberi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F1E3D;
+    --blue:#2563EB;
+    --bg:#FFFFFF;
+    --text:#1E2433;
+    --muted:#5B6472;
+    --border:#E4E8F0;
+    --card:#F7F9FC;
+    --green:#16A34A;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;}
+  [hidden]{display:none!important;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+    font-size:1rem;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue); text-decoration:none;}
+  h1,h2,h3{color:var(--navy); font-weight:700; line-height:1.25; margin:0 0 .6em;}
+  h1{font-size:2.6rem;}
+  h2{font-size:1.7rem;}
+  h3{font-size:1.15rem;}
+  p{margin:0 0 1em;}
+  .accent{color:var(--blue);}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  .btn{
+    display:inline-block; padding:.85em 1.6em; border-radius:10px; font-weight:600;
+    border:none; cursor:pointer; font-family:inherit; font-size:1rem;
+  }
+  .btn-primary{
+    background:linear-gradient(90deg, var(--navy), var(--blue));
+    color:#fff;
+  }
+  .btn-primary:hover{opacity:.92;}
+  .btn-outline{
+    background:#fff; color:var(--navy); border:1.5px solid var(--border);
+  }
+  .btn-outline:hover{border-color:var(--blue); color:var(--blue);}
+  .tag-active{
+    color:var(--green); font-weight:600; font-size:.85rem; display:inline-flex; align-items:center; gap:6px;
+  }
+  .tag-active::before{
+    content:""; width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block;
+  }
+
+  /* Header */
+  header{
+    position:sticky; top:0; background:#fff; border-bottom:1px solid var(--border); z-index:50;
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between; padding:16px 24px; flex-wrap:wrap; gap:12px;
+  }
+  .logo{font-weight:700; color:var(--navy); font-size:1.2rem;}
+  .logo .accent{font-weight:700;}
+  .nav-links{display:flex; gap:22px; flex-wrap:wrap; list-style:none; margin:0; padding:0;}
+  .nav-links a{color:var(--text); font-weight:500; font-size:.95rem;}
+  .nav-links a.active, .nav-links a:hover{color:var(--blue);}
+
+  main[data-view]{display:none;}
+  main[data-view].visible{display:block;}
+
+  /* Hero */
+  .hero{padding:64px 0 40px; text-align:center;}
+  .hero p.lead{max-width:640px; margin:0 auto 1.8em; color:var(--muted); font-size:1.1rem;}
+  .hero-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:48px;}
+
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin:0 auto 20px; max-width:960px;
+  }
+  .stat{text-align:center; padding:18px 10px; background:var(--card); border-radius:14px; border:1px solid var(--border);}
+  .stat b{display:block; font-size:1.6rem; color:var(--navy);}
+  .stat span{color:var(--muted); font-size:.85rem;}
+  .stats-source{text-align:center; color:var(--muted); font-size:.8rem; margin-bottom:56px;}
+
+  /* Ticker */
+  .ticker-wrap{overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:14px 0; margin-bottom:64px;}
+  .ticker-track{display:flex; gap:48px; white-space:nowrap; animation:scroll 32s linear infinite; width:max-content;}
+  .ticker-item{display:inline-flex; align-items:center; gap:10px; font-size:.95rem; color:var(--text);}
+  .ticker-item .code{color:var(--blue); font-weight:600;}
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* Features */
+  .features{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:64px;}
+  .feature-card{padding:24px; border:1px solid var(--border); border-radius:14px; background:#fff;}
+  .feature-card h3{margin-bottom:.4em;}
+  .feature-card p{color:var(--muted); margin:0; font-size:.95rem;}
+
+  .cta-close{
+    text-align:center; padding:48px 24px; background:var(--card); border-radius:18px; margin-bottom:56px;
+  }
+
+  /* Section header (reused across pages) */
+  .page-head{padding:48px 0 24px; text-align:center;}
+  .page-head p{color:var(--muted); max-width:600px; margin:0 auto;}
+
+  /* Fon Bulucu form */
+  .finder-form{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:20px; padding:28px; background:var(--card);
+    border:1px solid var(--border); border-radius:16px; margin-bottom:36px;
+  }
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field label{font-weight:600; font-size:.9rem; color:var(--navy);}
+  .field select, .field input{
+    padding:.7em .8em; border-radius:8px; border:1.5px solid var(--border); font-family:inherit; font-size:1rem; background:#fff;
+  }
+  .finder-form .full{grid-column:1/-1; text-align:right;}
+
+  .result-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:56px;}
+  .result-card{border:1px solid var(--border); border-radius:14px; padding:20px; background:#fff;}
+  .match-bar{height:6px; border-radius:4px; background:var(--border); overflow:hidden; margin:.6em 0;}
+  .match-bar span{display:block; height:100%; background:linear-gradient(90deg,var(--navy),var(--blue));}
+  .match-pct{font-weight:700; color:var(--blue);}
+  .demo-note{
+    background:#EAF1FF; border:1px solid #C9DBFF; color:var(--navy); padding:14px 18px; border-radius:10px;
+    font-size:.9rem; margin-bottom:28px;
+  }
+
+  /* Fonlar list */
+  .filters{display:flex; gap:14px; margin-bottom:28px; flex-wrap:wrap;}
+  .filters input, .filters select{
+    padding:.7em .9em; border-radius:8px; border:1.5px solid var(--border); font-family:inherit; font-size:1rem;
+  }
+  .filters input{flex:1; min-width:220px;}
+  .fund-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:20px;}
+  .fund-card{border:1px solid var(--border); border-radius:14px; padding:20px; background:#fff; position:relative; cursor:pointer; transition:border-color .15s ease, box-shadow .15s ease;}
+  .fund-card:hover, .fund-card:focus-visible{border-color:var(--blue); box-shadow:0 4px 16px rgba(37,99,235,.1);}
+  .fund-card .fname{
+    font-weight:700; text-transform:uppercase; color:var(--navy); font-size:.95rem; padding-right:70px; margin-bottom:6px;
+  }
+  .fund-card .status-badge{position:absolute; top:20px; right:20px;}
+  .fund-card .code{color:var(--blue); font-size:.85rem; margin-bottom:10px;}
+  .fund-card .manager{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:.9rem; margin-bottom:14px;}
+  .fund-card .manager .bldg{font-size:1.1rem;}
+  .fund-card .foot-links{display:flex; gap:10px; flex-wrap:wrap; font-size:.8rem; padding-top:12px; border-top:1px solid var(--border);}
+  .foot-links span{background:var(--card); padding:3px 9px; border-radius:6px; color:var(--muted);}
+  .count-line{color:var(--muted); font-size:.9rem; margin-bottom:18px;}
+
+  /* Rehber */
+  .guide-block{margin-bottom:32px;}
+  .calc-box{
+    background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:48px;
+  }
+  .calc-row{display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap; margin-bottom:18px;}
+  .calc-result{
+    padding:16px 20px; border-radius:10px; background:#fff; border:1.5px solid var(--border); font-size:1.05rem;
+  }
+  .calc-result.ok{border-color:var(--green); color:var(--green);}
+  .calc-result.info{border-color:var(--border); color:var(--muted);}
+  .calc-more-link{display:inline-block; margin-top:14px; font-weight:600;}
+
+  /* SSS */
+  .faq-item{border-bottom:1px solid var(--border); padding:18px 0;}
+  .faq-q{
+    display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; color:var(--navy);
+  }
+  .faq-a{max-height:0; overflow:hidden; color:var(--muted); transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:300px; margin-top:10px;}
+  .faq-q .plus{transition:transform .2s ease; color:var(--blue); font-size:1.3rem;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+
+  /* Fon Detay */
+  .back-link{display:inline-block; margin:32px 0 20px; font-weight:600;}
+  .fund-detail-header{display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:32px;}
+  .fname-detail{text-transform:uppercase; font-size:1.7rem; display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:.3em;}
+  .fund-detail-sub{color:var(--muted); font-size:.95rem;}
+  .detail-actions{display:flex; gap:10px; flex-shrink:0;}
+  .btn-sm{padding:.55em 1.2em; font-size:.9rem;}
+  .detail-summary{margin-bottom:40px;}
+  .stat small{display:block; color:var(--muted); font-size:.72rem; margin-top:4px;}
+  .detail-tabs{display:flex; gap:24px; border-bottom:1px solid var(--border); margin-bottom:28px; flex-wrap:wrap;}
+  .detail-tab{padding:10px 2px; font-weight:600; font-size:.95rem; color:var(--muted); border-bottom:2px solid transparent; margin-bottom:-1px;}
+  .detail-tab.active{color:var(--blue); border-bottom-color:var(--blue);}
+  .detail-tab.disabled{opacity:.55; cursor:default;}
+  .detail-tab .soon{font-size:.68rem; font-weight:500; color:var(--muted); margin-left:4px;}
+  .detail-columns{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;}
+  .detail-section{margin-bottom:24px;}
+  .info-row{display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-bottom:1px solid var(--border); font-size:.92rem;}
+  .info-row:last-child{border-bottom:none;}
+  .info-row .k{color:var(--muted);}
+  .info-row .v{color:var(--text); font-weight:600; text-align:right;}
+  .sector-tags{display:flex; gap:8px; flex-wrap:wrap;}
+  .sector-tag{background:var(--card); border:1px solid var(--border); padding:4px 12px; border-radius:999px; font-size:.85rem; color:var(--navy);}
+  .fund-not-found{padding:60px 0; text-align:center;}
+
+  /* Uyarı rozetleri (Hakkımızda/İletişim/Yasal) */
+  .notice-warn{
+    background:#FEF3C7; border:1px solid #FDE68A; color:#92400E; padding:3px 10px; border-radius:6px;
+    font-size:.8rem; font-weight:700; display:inline-block;
+  }
+  .draft-banner{
+    background:#FEF3C7; border:1px solid #FDE68A; color:#92400E; padding:14px 18px; border-radius:10px;
+    font-size:.9rem; font-weight:700; margin-bottom:28px;
+  }
+
+  /* Footer */
+  .site-footer{border-top:1px solid var(--border); padding:40px 0; margin-top:40px; background:var(--card);}
+  .footer-disclaimer{
+    font-size:.85rem; color:var(--muted); max-width:760px; margin:0 auto 20px; text-align:center;
+  }
+  .footer-links{display:flex; gap:18px; flex-wrap:wrap; justify-content:center; margin-bottom:16px; font-size:.85rem;}
+  .footer-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:.85rem; color:var(--muted);}
+
+  @media (max-width:860px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .features{grid-template-columns:1fr;}
+    .finder-form{grid-template-columns:1fr;}
+    .result-grid, .fund-grid{grid-template-columns:1fr;}
+    .detail-columns{grid-template-columns:1fr;}
+    h1{font-size:2rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav wrap">
+    <div class="logo">GSYF <span class="accent">Pusulası</span></div>
+    <ul class="nav-links">
+      <li><a href="#home" data-nav="home">Ana Sayfa</a></li>
+      <li><a href="#bulucu" data-nav="bulucu">Fon Bulucu</a></li>
+      <li><a href="#fonlar" data-nav="fonlar">Fonlar</a></li>
+      <li><a href="#hakkimizda" data-nav="hakkimizda">Hakkımızda</a></li>
+      <li><a href="#iletisim" data-nav="iletisim">İletişim</a></li>
+      <li><a href="#sss" data-nav="sss">SSS</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- #home -->
+<main data-view="home">
+  <section class="hero wrap">
+    <h1>Girişim Sermayesi Yatırım Fonlarında<br><span class="accent">doğru yönü bulun.</span></h1>
+    <p class="lead">GSYF Pusulası; SPK kayıtlı girişim sermayesi yatırım fonlarını, %3 zorunlu yatırım yükümlülüğünü ve fon seçim kriterlerini tek bir yerde toplayan bağımsız bir bilgi platformudur.</p>
+    <div class="hero-actions">
+      <a href="#bulucu" class="btn btn-primary">Fon Bulucu'yu Dene</a>
+      <a href="#fonlar" class="btn btn-outline">Fon Listesine Göz At</a>
+    </div>
+
+    <div class="stats" id="heroStats">
+      <div class="stat"><b id="heroFundCount">—</b><span>SPK onaylı GSYF</span></div>
+      <div class="stat"><b id="heroTotalSize">—</b><span>toplam fon büyüklüğü</span></div>
+      <div class="stat"><b id="heroQualifiedInvestors">—</b><span>nitelikli yatırımcı</span></div>
+      <div class="stat"><b id="heroTarget2026">—</b><span>2026 sektör hedefi</span></div>
+    </div>
+    <div class="stats-source" id="heroStatsSource"></div>
+  </section>
+
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <section class="wrap">
+    <div class="calc-box">
+      <h3>%3 Zorunlu Yatırım <span class="accent">Hesaplayıcı</span></h3>
+      <p>Ar-Ge/teknokent kazanç istisnasından yararlanan kurumlar, yıllık istisna tutarı 2.000.000 ₺'yi aşıyorsa bunun %3'ünü GSYF/GSYO'ya yatırmakla yükümlüdür.</p>
+      <div class="calc-row">
+        <div class="field">
+          <label for="hc-tutar">Yıllık vergi avantajı / istisna tutarı (₺)</label>
+          <input type="number" id="hc-tutar" min="0" step="10000" placeholder="Örn. 3000000" value="3000000">
+        </div>
+        <button class="btn btn-primary" id="hcalcBtn" type="button">Hesapla</button>
+      </div>
+      <div id="hcalcResult"></div>
+      <a href="#rehber" class="calc-more-link">Detaylı rehberi oku →</a>
+    </div>
+  </section>
+
+  <section class="wrap features">
+    <div class="feature-card">
+      <h3>SPK Kayıtlı Kaynak</h3>
+      <p>Fon listesi Sermaye Piyasası Kurulu'nun resmi kayıtlarına dayanır, uydurma veri kullanılmaz.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Bağımsız Bilgi Platformu</h3>
+      <p>Herhangi bir fonun satışını yapmayız; yatırım tavsiyesi veya aracılık hizmeti sunmayız.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Fon Bulucu</h3>
+      <p>Sektör, bütçe, risk toleransı ve dışa açıklık tercihinize göre ağırlıklı puanlama ile eşleştirme yapar.</p>
+    </div>
+    <div class="feature-card">
+      <h3>%3 Yükümlülük Rehberi</h3>
+      <p>Ar-Ge/teknokent kazanç istisnasından yararlananlar için zorunlu yatırım tutarını hesaplayın.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Güncel Fon Listesi</h3>
+      <p>Arama ve durum filtresiyle kayıtlı fonlar arasında hızlıca gezinin.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Şeffaf Metodoloji</h3>
+      <p>Fon Bulucu'nun puanlama ağırlıkları (sektör, bütçe, risk, dışa açıklık) açıkça paylaşılır.</p>
+    </div>
+  </section>
+
+  <section class="wrap cta-close">
+    <h2>Uygun fonu bulmaya hazır mısınız?</h2>
+    <p>İki dakikada, ihtiyacınıza en yakın örnek fon profillerini görün.</p>
+    <a href="#bulucu" class="btn btn-primary">Fon Bulucu'yu Başlat</a>
+  </section>
+</main>
+
+<!-- #bulucu -->
+<main data-view="bulucu">
+  <section class="wrap page-head">
+    <h2>Fon <span class="accent">Bulucu</span></h2>
+    <p>Tercihlerinizi girin, ağırlıklı puanlama ile en uygun örnek fon profillerini görün: sektör %40, bütçe %25, risk %20, dışa açıklık %15.</p>
+  </section>
+
+  <section class="wrap">
+    <div class="demo-note">Fon Bulucu şu an örnek (demo) veri setiyle çalışır; gerçek fon özellikleri FAZ 2'de bağlanacaktır.</div>
+
+    <form class="finder-form" id="finderForm">
+      <div class="field">
+        <label for="f-sektor">Sektör</label>
+        <select id="f-sektor">
+          <option value="teknoloji">Teknoloji</option>
+          <option value="enerji">Enerji</option>
+          <option value="saglik">Sağlık</option>
+          <option value="tarim">Tarım</option>
+          <option value="lojistik">Lojistik</option>
+          <option value="turizm">Turizm</option>
+          <option value="fintek">Fintek</option>
+          <option value="uretim">Üretim</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-butce">Yatırım Bütçeniz (₺)</label>
+        <input type="number" id="f-butce" min="0" step="10000" placeholder="Örn. 500000" value="500000">
+      </div>
+      <div class="field">
+        <label for="f-risk">Risk Toleransı</label>
+        <select id="f-risk">
+          <option value="dusuk">Düşük</option>
+          <option value="orta" selected>Orta</option>
+          <option value="yuksek">Yüksek</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-disa">Dışa Açıklık Tercihi</label>
+        <select id="f-disa">
+          <option value="yerli">Yerli ağırlıklı</option>
+          <option value="karma" selected>Karma</option>
+          <option value="kuresel">Küresel</option>
+        </select>
+      </div>
+      <div class="full">
+        <button type="submit" class="btn btn-primary">Eşleştir</button>
+      </div>
+    </form>
+
+    <div class="result-grid" id="resultGrid"></div>
+  </section>
+</main>
+
+<!-- #fonlar -->
+<main data-view="fonlar">
+  <section class="wrap page-head">
+    <h2>Kayıtlı <span class="accent">Fonlar</span></h2>
+    <p>SPK'nın ihraç belgesi onayladığı girişim sermayesi yatırım fonlarının tam listesi.</p>
+  </section>
+
+  <section class="wrap">
+    <div class="filters">
+      <input type="text" id="fundSearch" placeholder="Fon adı veya yönetici ara...">
+      <select id="managerFilter">
+        <option value="">Tüm yönetici şirketler</option>
+      </select>
+      <select id="statusFilter">
+        <option value="">Tüm durumlar</option>
+        <option value="Aktif">Aktif</option>
+      </select>
+    </div>
+    <div class="count-line" id="fundCount"></div>
+    <div class="fund-grid" id="fundGrid"></div>
+  </section>
+</main>
+
+<!-- #fon-<slug> (fon detay) -->
+<main data-view="fon-detay">
+  <div id="fundDetailContent"></div>
+</main>
+
+<!-- #hakkimizda -->
+<main data-view="hakkimizda">
+  <section class="wrap page-head">
+    <h2>Hakkımızda</h2>
+  </section>
+
+  <section class="wrap">
+    <div class="guide-block">
+      <h3>GSYF Pusulası nedir?</h3>
+      <p>GSYF Pusulası, Türkiye'deki girişim sermayesi yatırım fonlarına (GSYF) dair kamuya açık bilgileri tek bir yerde toplayan bağımsız bir bilgi platformudur. Herhangi bir fon, aracı kurum veya portföy yönetim şirketiyle bağlantılı değildir.</p>
+    </div>
+    <div class="guide-block">
+      <h3>Kime hizmet eder?</h3>
+      <p>Ar-Ge veya teknokent kazanç istisnası nedeniyle %3 zorunlu yatırım yükümlülüğüne tabi olan şirketlere ve GSYF'lere gönüllü olarak yatırım yapmak isteyen nitelikli yatırımcılara yöneliktir.</p>
+    </div>
+    <div class="guide-block">
+      <h3>Ne yapmaz?</h3>
+      <p>GSYF Pusulası yatırım tavsiyesi vermez, fon satmaz ve aracılık faaliyetinde bulunmaz. SPK lisanslı bir kuruluş değildir; sitedeki bilgiler yalnızca genel bilgilendirme amaçlıdır.</p>
+    </div>
+  </section>
+</main>
+
+<!-- #iletisim -->
+<main data-view="iletisim">
+  <section class="wrap page-head">
+    <h2>İletişim</h2>
+    <p>Sorularınız için aşağıdaki bilgilerden ulaşabilirsiniz.</p>
+  </section>
+
+  <section class="wrap">
+    <div class="feature-card">
+      <div class="info-row"><span class="k">E-posta</span><span class="v"><span class="notice-warn">[E-POSTA EKLENECEK]</span></span></div>
+      <div class="info-row"><span class="k">Yanıt Süresi</span><span class="v">Hafta içi 09:00–18:00</span></div>
+      <div class="info-row"><span class="k">SPK</span><span class="v"><a href="https://spk.gov.tr/kurumlar/fonlar/yatirim-fonlari/girisim-sermayesi-yatirim-fonlari" target="_blank" rel="noopener">spk.gov.tr</a></span></div>
+      <div class="info-row"><span class="k">KAP</span><span class="v"><a href="https://kap.org.tr/tr/YatirimFonlari/GSF" target="_blank" rel="noopener">kap.org.tr</a></span></div>
+    </div>
+  </section>
+</main>
+
+<!-- #rehber -->
+<main data-view="rehber">
+  <section class="wrap page-head">
+    <h2>%3 Zorunlu Yatırım <span class="accent">Yükümlülüğü</span></h2>
+    <p>Ar-Ge/teknokent kazanç istisnasından yararlanan kurumlar için zorunlu GSYF/GSYO yatırım yükümlülüğü rehberi.</p>
+  </section>
+
+  <section class="wrap">
+    <div class="guide-block">
+      <h3>Yükümlülük nedir?</h3>
+      <p>İlgili mevzuat kapsamında Ar-Ge/tasarım indirimi veya teknokent kazanç istisnasından yararlanan ve yıllık istisna/indirim tutarı belirlenen eşiği aşan kurumlar, bu tutarın <b>%3'ünü</b> girişim sermayesi yatırım fonu (GSYF) katılma payı almak veya girişim sermayesi yatırım ortaklığına (GSYO) yatırım yapmak suretiyle kullanmakla yükümlüdür.</p>
+      <p>Yükümlülük eşiği yıllık <b>2.000.000 ₺</b>'dir; istisna/indirim tutarı bu eşiğin altında kalan kurumlar için zorunluluk doğmaz.</p>
+    </div>
+
+    <div class="calc-box">
+      <h3>Hesaplayıcı</h3>
+      <div class="calc-row">
+        <div class="field">
+          <label for="c-tutar">Yıllık vergi avantajı / istisna tutarı (₺)</label>
+          <input type="number" id="c-tutar" min="0" step="10000" placeholder="Örn. 3000000" value="3000000">
+        </div>
+        <button class="btn btn-primary" id="calcBtn" type="button">Hesapla</button>
+      </div>
+      <div id="calcResult"></div>
+    </div>
+
+    <div class="guide-block">
+      <h3>Nasıl karşılanır?</h3>
+      <p>Yükümlülük, hesaplanan tutar kadar GSYF katılma payı alınması veya GSYO paylarına yatırım yapılması ile karşılanabilir. Bu sayfa yalnızca genel bilgilendirme amaçlıdır, yatırım tavsiyesi değildir; kesin uygulama için mali müşavir veya SPK mevzuatına başvurun.</p>
+    </div>
+  </section>
+</main>
+
+<!-- #sss -->
+<main data-view="sss">
+  <section class="wrap page-head">
+    <h2>Sık Sorulan <span class="accent">Sorular</span></h2>
+    <p>GSYF Pusulası ve girişim sermayesi yatırım fonları hakkında en çok merak edilenler.</p>
+  </section>
+
+  <section class="wrap">
+    <div id="faqList"></div>
+  </section>
+</main>
+
+<!-- #yasal -->
+<main data-view="yasal">
+  <section class="wrap page-head">
+    <h2>Yasal <span class="accent">Bilgiler</span></h2>
+  </section>
+
+  <section class="wrap">
+    <div class="draft-banner">TASLAK — hukuk kontrolü bekliyor</div>
+
+    <div class="guide-block">
+      <h3>Yasal Uyarı</h3>
+      <p>Bu sitede yer alan bilgiler yatırım tavsiyesi niteliği taşımaz. GSYF Pusulası, Sermaye Piyasası Kurulu (SPK) tarafından yetkilendirilmiş bir yatırım kuruluşu, aracı kurum veya portföy yönetim şirketi değildir. Sitede paylaşılan veriler kamuya açık kaynaklardan derlenmiştir; doğruluğu, güncelliği veya eksiksizliği için herhangi bir garanti verilmez. Yatırım kararı almadan önce yetkili bir SPK lisanslı kuruluşa danışın.</p>
+    </div>
+    <div class="guide-block">
+      <h3>KVKK Aydınlatma Metni</h3>
+      <p>Bu web sitesi şu an itibarıyla ziyaretçilerinden herhangi bir kişisel veri toplamamaktadır; form, üyelik veya çerez tabanlı takip bulunmamaktadır. İletişim formu veya benzeri bir veri toplama mekanizması eklendiğinde, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında hazırlanan tam aydınlatma metni bu sayfada yayımlanacaktır.</p>
+    </div>
+    <div class="guide-block">
+      <h3>Çerez Politikası</h3>
+      <p>Site, oturum veya tercih takibi için herhangi bir çerez ya da localStorage kullanmamaktadır. Bu politika, siteye çerez veya benzeri bir izleme mekanizması eklendiğinde güncellenecektir.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="#hakkimizda">Hakkımızda</a>
+      <a href="#iletisim">İletişim</a>
+      <a href="#rehber">GSYF Yükümlülüğü</a>
+      <a href="#yasal">Yasal Uyarı</a>
+      <a href="#yasal">KVKK</a>
+      <a href="#yasal">Çerezler</a>
+    </div>
+    <div class="footer-disclaimer">
+      GSYF Pusulası bağımsız bir bilgi platformudur; SPK lisanslı bir kuruluş değildir, yatırım danışmanlığı veya aracılık hizmeti sunmaz. Sitede yer alan bilgiler kamuya açık kaynaklardan derlenmiştir ve yatırım tavsiyesi niteliği taşımaz.
+    </div>
+    <div class="footer-bottom wrap">
+      <span>© 2026 GSYF Pusulası</span>
+      <span>Deneme amaçlı kişisel proje</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Veri kaynakları ----
+  // Gerçek fon listesi data/funds.json dosyasından yüklenir (bkz. loadFunds()).
+  let REAL_FUNDS = [];
+
+  // Fon Bulucu için 8 adet DEMO fon. Gerçek veri değildir, uydurma performans/büyüklük içermez.
+  const FUNDS = [
+    { name:"Demo Teknoloji Girişim Sermayesi Fonu", sector:"teknoloji", minBudget:500000, risk:"yuksek", foreign:"kuresel" },
+    { name:"Demo Enerji Girişim Sermayesi Fonu", sector:"enerji", minBudget:1000000, risk:"orta", foreign:"karma" },
+    { name:"Demo Sağlık Girişim Sermayesi Fonu", sector:"saglik", minBudget:750000, risk:"orta", foreign:"kuresel" },
+    { name:"Demo Tarım Girişim Sermayesi Fonu", sector:"tarim", minBudget:250000, risk:"dusuk", foreign:"yerli" },
+    { name:"Demo Lojistik Girişim Sermayesi Fonu", sector:"lojistik", minBudget:500000, risk:"orta", foreign:"karma" },
+    { name:"Demo Turizm Girişim Sermayesi Fonu", sector:"turizm", minBudget:300000, risk:"dusuk", foreign:"yerli" },
+    { name:"Demo Fintek Girişim Sermayesi Fonu", sector:"fintek", minBudget:1000000, risk:"yuksek", foreign:"kuresel" },
+    { name:"Demo Üretim Girişim Sermayesi Fonu", sector:"uretim", minBudget:600000, risk:"orta", foreign:"karma" }
+  ];
+
+  const FAQS = [
+    { q:"GSYF (Girişim Sermayesi Yatırım Fonu) nedir?", a:"Nitelikli yatırımcılardan toplanan kaynağı, büyüme potansiyeli olan girişim şirketlerine yatırmak üzere SPK mevzuatına göre kurulan bir yatırım fonu türüdür." },
+    { q:"GSYF Pusulası yatırım tavsiyesi veriyor mu?", a:"Hayır. Bu site bağımsız bir bilgi platformudur; yatırım tavsiyesi vermez, fon satmaz veya aracılık yapmaz." },
+    { q:"Fon Bulucu sonuçları gerçek fonlara mı ait?", a:"Hayır, Fon Bulucu şu an için örnek (demo) verilerle çalışır. Gerçek fon özellikleriyle eşleştirme FAZ 2'de eklenecektir." },
+    { q:"GSYF'lere kimler yatırım yapabilir?", a:"Genel olarak SPK mevzuatınca tanımlanan nitelikli yatırımcılar. %3 zorunlu yatırım yükümlülüğü kapsamındaki kurumlar da katılma payı alabilir." },
+    { q:"%3 zorunlu yatırım yükümlülüğü kimi kapsar?", a:"Ar-Ge/tasarım indirimi veya teknokent kazanç istisnasından yararlanıp yıllık istisna tutarı 2.000.000 ₺'yi aşan kurumları kapsar. Detaylar için %3 Rehberi sayfasına bakın." },
+    { q:"Fon listesi ne sıklıkla güncellenir?", a:"Fon listesi, scripts/fetch_funds.py betiği SPK'nın resmi sayfasından yeniden çalıştırıldığında güncellenir. Otomatik/periyodik bir güncelleme henüz yoktur." }
+  ];
+
+  // ---- Fon slug üretimi (#fon-KOD ya da #fon-ad-slug) ----
+  const TR_MAP = {'Ğ':'g','ğ':'g','Ü':'u','ü':'u','Ş':'s','ş':'s','İ':'i','ı':'i','Ö':'o','ö':'o','Ç':'c','ç':'c'};
+  function slugify(str){
+    return str.split('').map(ch => TR_MAP[ch] || ch).join('')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g,'-')
+      .replace(/^-+|-+$/g,'');
+  }
+  function fundSlug(fund){
+    if (fund.slug) return fund.slug;
+    if (fund.code) return fund.code;
+    let base = fund.name.replace(/Girişim Sermayesi Yatırım Fonu$/i, '').trim();
+    if (!base) base = fund.name;
+    return slugify(base);
+  }
+
+  function escapeHtml(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  function pickRandom(arr, n){
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy.slice(0, n);
+  }
+
+  // ---- Veriyi yükle ----
+  async function loadFunds(){
+    try{
+      const res = await fetch('data/funds.json');
+      const json = await res.json();
+      REAL_FUNDS = json.funds || [];
+    } catch(e){
+      REAL_FUNDS = [];
+    }
+    const heroCount = document.getElementById('heroFundCount');
+    if (heroCount) heroCount.textContent = REAL_FUNDS.length ? REAL_FUNDS.length : '—';
+    populateManagerFilter();
+    renderTicker();
+    renderFunds();
+    route();
+  }
+
+  function populateManagerFilter(){
+    const select = document.getElementById('managerFilter');
+    if (!select) return;
+    const managers = [...new Set(REAL_FUNDS.map(f => f.manager))].sort((a,b) => a.localeCompare(b, 'tr'));
+    select.innerHTML = '<option value="">Tüm yönetici şirketler</option>' +
+      managers.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join('');
+  }
+
+  // ---- Hero istatistikleri (data/stats.json) ----
+  function formatBillion(n){
+    return Number(n).toLocaleString('tr-TR', { maximumFractionDigits: 1 }) + ' mlyr ₺';
+  }
+
+  async function loadStats(){
+    const statsEl = document.getElementById('heroStats');
+    const sourceEl = document.getElementById('heroStatsSource');
+    try{
+      const res = await fetch('data/stats.json');
+      if (!res.ok) throw new Error('stats.json yüklenemedi');
+      const s = await res.json();
+      document.getElementById('heroTotalSize').textContent = formatBillion(s.totalSizeBillionTRY);
+      document.getElementById('heroQualifiedInvestors').textContent = Number(s.qualifiedInvestors).toLocaleString('tr-TR');
+      document.getElementById('heroTarget2026').textContent = formatBillion(s.target2026BillionTRY);
+      sourceEl.innerHTML = `Fon sayısı SPK'nın güncel GSYF listesinden; diğer rakamların kaynağı <a href="${escapeHtml(s.sourceUrl)}" target="_blank" rel="noopener">${escapeHtml(s.sourceLabel)}</a>, ${escapeHtml(s.asOf)} sektör verileridir. Bu sayfa yatırım tavsiyesi niteliği taşımaz.`;
+    } catch(e){
+      if (statsEl) statsEl.hidden = true;
+      if (sourceEl) sourceEl.hidden = true;
+    }
+  }
+
+  // ---- Yönlendirme (routing) ----
+  const views = document.querySelectorAll('main[data-view]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  function route(){
+    const raw = (location.hash || '#home').slice(1);
+    const isFundDetail = raw.startsWith('fon-');
+    views.forEach(v => v.classList.toggle('visible', isFundDetail ? v.dataset.view === 'fon-detay' : v.dataset.view === raw));
+    navLinks.forEach(a => a.classList.toggle('active', !isFundDetail && a.dataset.nav === raw));
+    if (isFundDetail) renderFundDetail(raw.slice(4));
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange', route);
+
+  // ---- Ticker ----
+  function renderTicker(){
+    const track = document.getElementById('tickerTrack');
+    const sample = pickRandom(REAL_FUNDS, 15);
+    const items = sample.map(f => `
+      <span class="ticker-item">
+        <span class="tag-active">Aktif</span>
+        ${escapeHtml(f.name)}${f.code ? ` <span class="code">${escapeHtml(f.code)}</span>` : ''}
+      </span>`).join('');
+    track.innerHTML = items + items; // seamless loop için iki kez
+  }
+
+  // ---- Fonlar sayfası ----
+  function renderFunds(){
+    const q = document.getElementById('fundSearch').value.trim().toLowerCase();
+    const status = document.getElementById('statusFilter').value;
+    const manager = document.getElementById('managerFilter').value;
+    const list = REAL_FUNDS.filter(f => {
+      const matchQ = !q || f.name.toLowerCase().includes(q) || f.manager.toLowerCase().includes(q);
+      const matchS = !status || f.status === status;
+      const matchM = !manager || f.manager === manager;
+      return matchQ && matchS && matchM;
+    });
+    document.getElementById('fundCount').textContent = `${list.length} fon gösteriliyor`;
+    document.getElementById('fundGrid').innerHTML = list.map(f => `
+      <div class="fund-card" tabindex="0" role="link" data-hash="#fon-${fundSlug(f)}">
+        <span class="status-badge tag-active">${escapeHtml(f.status)}</span>
+        <div class="fname">${escapeHtml(f.name)}</div>
+        ${f.code ? `<div class="code">${escapeHtml(f.code)}</div>` : ''}
+        <div class="manager"><span class="bldg">🏢</span>${escapeHtml(f.manager)}</div>
+        <div class="foot-links">
+          <span>GSYF</span>
+          <span>SPK Kayıtlı</span>
+          <a href="https://kap.org.tr/tr/YatirimFonlari/GSF" target="_blank" rel="noopener" onclick="event.stopPropagation()">KAP</a>
+        </div>
+      </div>`).join('') || '<p>Aramanızla eşleşen fon bulunamadı.</p>';
+
+    document.querySelectorAll('.fund-card').forEach(card => {
+      const go = () => { location.hash = card.dataset.hash; };
+      card.addEventListener('click', go);
+      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  }
+
+  // ---- Fon detay ----
+  function renderFundDetail(slug){
+    const container = document.getElementById('fundDetailContent');
+    const fund = REAL_FUNDS.find(f => fundSlug(f) === slug);
+
+    if (!fund){
+      container.innerHTML = `
+        <div class="wrap">
+          <a href="#fonlar" class="back-link">← Fonlara dön</a>
+          <div class="fund-not-found">
+            <h2>Fon bulunamadı</h2>
+            <p>Aradığınız fon kaydı listede yok. <a href="#fonlar">Fon listesine dönün.</a></p>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const d = fund.detail || {};
+    const v = val => (val === null || val === undefined || val === '') ? '—' : escapeHtml(val);
+    const money = val => (val === null || val === undefined) ? '—' : `${Number(val).toLocaleString('tr-TR')} ₺`;
+    const contact = d.contact || {};
+    const sectors = (d.sectors && d.sectors.length) ? d.sectors.map(s => `<span class="sector-tag">${escapeHtml(s)}</span>`).join('') : '<span>—</span>';
+
+    container.innerHTML = `
+      <div class="wrap">
+        <a href="#fonlar" class="back-link">← Fonlara dön</a>
+
+        <div class="fund-detail-header">
+          <div>
+            <h1 class="fname-detail">${escapeHtml(fund.name)}<span class="tag-active">${v(fund.status)}</span></h1>
+            <div class="fund-detail-sub">${v(fund.code)} · ${v(fund.manager)}</div>
+          </div>
+          <div class="detail-actions">
+            <button class="btn btn-outline btn-sm" id="shareBtn" type="button">Paylaş</button>
+            <a class="btn btn-outline btn-sm" href="https://kap.org.tr/tr/YatirimFonlari/GSF" target="_blank" rel="noopener">KAP</a>
+          </div>
+        </div>
+
+        <div class="stats detail-summary">
+          <div class="stat">
+            <b>${money(d.totalValue)}</b>
+            <span>Fon Toplam Değeri</span>
+            ${d.totalValueDate ? `<small>${d.totalValueDate} itibarıyla</small>` : ''}
+          </div>
+          <div class="stat"><b>${v(d.foreignOpenness)}</b><span>Dış Yatırımcıya Açıklık</span></div>
+          <div class="stat"><b>${money(d.minInvestment)}</b><span>Min. Yatırım</span></div>
+          <div class="stat"><b>${v(d.entryDate)}</b><span>Giriş Tarihi</span></div>
+        </div>
+
+        <div class="detail-tabs">
+          <div class="detail-tab active">Genel Bakış</div>
+          <div class="detail-tab disabled">Yönetim Ekibi<span class="soon">yakında</span></div>
+          <div class="detail-tab disabled">Performans<span class="soon">yakında</span></div>
+          <div class="detail-tab disabled">Duyurular<span class="soon">yakında</span></div>
+        </div>
+
+        <div class="detail-columns">
+          <div class="feature-card">
+            <h3>Fon Bilgileri</h3>
+            <div class="info-row"><span class="k">Fon Tipi</span><span class="v">${v(d.fundType)}</span></div>
+            <div class="info-row"><span class="k">Fon Sınıfı</span><span class="v">${v(d.fundClass)}</span></div>
+            <div class="info-row"><span class="k">ISIN</span><span class="v">${v(d.isin)}</span></div>
+            <div class="info-row"><span class="k">Kuruluş Tarihi</span><span class="v">${v(d.establishmentDate)}</span></div>
+            <div class="info-row"><span class="k">Fon Süresi</span><span class="v">${v(d.fundDuration)}</span></div>
+            <div class="info-row"><span class="k">Tasfiye Tarihi</span><span class="v">${v(d.liquidationDate)}</span></div>
+            <div class="info-row"><span class="k">Yönetim Ücreti</span><span class="v">${v(d.managementFee)}</span></div>
+            <div class="info-row"><span class="k">Durum</span><span class="v">${v(fund.status)}</span></div>
+          </div>
+          <div class="feature-card">
+            <h3>Kurumsal Bilgiler</h3>
+            <div class="info-row"><span class="k">Kurucu</span><span class="v">${v(d.founder)}</span></div>
+            <div class="info-row"><span class="k">Portföy Yönetim Şirketi</span><span class="v">${v(fund.manager)}</span></div>
+            <div class="info-row"><span class="k">Bağımsız Denetim</span><span class="v">${v(d.independentAudit)}</span></div>
+            <div class="info-row"><span class="k">Saklama Kuruluşu</span><span class="v">${v(d.custodian)}</span></div>
+          </div>
+        </div>
+
+        <div class="feature-card detail-section">
+          <h3>Yatırım Stratejisi</h3>
+          <p style="margin:0;">${v(d.investmentStrategy)}</p>
+        </div>
+
+        <div class="detail-columns">
+          <div class="feature-card">
+            <h3>İletişim Bilgileri</h3>
+            <div class="info-row"><span class="k">Adres</span><span class="v">${v(contact.address)}</span></div>
+            <div class="info-row"><span class="k">Telefon</span><span class="v">${v(contact.phone)}</span></div>
+            <div class="info-row"><span class="k">E-posta</span><span class="v">${v(contact.email)}</span></div>
+            <div class="info-row"><span class="k">Yetkili Kişi</span><span class="v">${v(contact.person)}</span></div>
+          </div>
+          <div class="feature-card">
+            <h3>Yatırım Sektörleri</h3>
+            <div class="sector-tags">${sectors}</div>
+          </div>
+        </div>
+      </div>`;
+
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn){
+      shareBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(location.href).then(() => {
+          shareBtn.textContent = 'Kopyalandı ✓';
+          setTimeout(() => { shareBtn.textContent = 'Paylaş'; }, 1500);
+        }).catch(() => {});
+      });
+    }
+  }
+
+  // ---- Fon Bulucu ----
+  function scoreFund(fund, prefs){
+    const sectorScore = fund.sector === prefs.sector ? 100 : 0;
+    const budgetScore = Math.min(100, (prefs.budget / fund.minBudget) * 100);
+    const riskLevels = ['dusuk','orta','yuksek'];
+    const riskDiff = Math.abs(riskLevels.indexOf(fund.risk) - riskLevels.indexOf(prefs.risk));
+    const riskScore = riskDiff === 0 ? 100 : riskDiff === 1 ? 50 : 0;
+    const foreignScore = fund.foreign === prefs.foreign ? 100 : 40;
+    const total = sectorScore*0.40 + budgetScore*0.25 + riskScore*0.20 + foreignScore*0.15;
+    return Math.round(total);
+  }
+
+  function renderResults(prefs){
+    const ranked = FUNDS
+      .map(f => ({ fund:f, score: scoreFund(f, prefs) }))
+      .sort((a,b) => b.score - a.score)
+      .slice(0, 6);
+    document.getElementById('resultGrid').innerHTML = ranked.map(r => `
+      <div class="result-card">
+        <h3>${r.fund.name}</h3>
+        <div class="match-pct">%${r.score} uyum</div>
+        <div class="match-bar"><span style="width:${r.score}%"></span></div>
+        <p style="color:var(--muted); font-size:.9rem; margin:0;">Sektör: ${r.fund.sector} · Risk: ${r.fund.risk} · Dışa açıklık: ${r.fund.foreign}</p>
+      </div>`).join('');
+  }
+
+  function currentPrefs(){
+    return {
+      sector: document.getElementById('f-sektor').value,
+      budget: Number(document.getElementById('f-butce').value) || 0,
+      risk: document.getElementById('f-risk').value,
+      foreign: document.getElementById('f-disa').value
+    };
+  }
+
+  // ---- %3 hesaplayıcı (ana sayfa ve rehber sayfasında ortak kullanılır) ----
+  function calcObligation(inputId, resultId){
+    const tutar = Number(document.getElementById(inputId).value) || 0;
+    const box = document.getElementById(resultId);
+    if (tutar > 2000000){
+      const zorunlu = tutar * 0.03;
+      box.innerHTML = `<div class="calc-result ok"><b>Zorunluluk doğar.</b> ${tutar.toLocaleString('tr-TR')} ₺ istisna tutarının %3'ü olan <b>${zorunlu.toLocaleString('tr-TR', {maximumFractionDigits:0})} ₺</b> tutarında GSYF/GSYO yatırımı yapılmalıdır.</div>`;
+    } else {
+      box.innerHTML = `<div class="calc-result info">Girilen tutar 2.000.000 ₺ eşiğinin altında olduğu için zorunlu yatırım yükümlülüğü doğmaz.</div>`;
+    }
+  }
+
+  // ---- SSS ----
+  function renderFaq(){
+    document.getElementById('faqList').innerHTML = FAQS.map((f,i) => `
+      <div class="faq-item" data-i="${i}">
+        <div class="faq-q">${f.q}<span class="plus">+</span></div>
+        <div class="faq-a"><p>${f.a}</p></div>
+      </div>`).join('');
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+    });
+  }
+
+  // ---- Olaylar ----
+  document.getElementById('finderForm').addEventListener('submit', e => {
+    e.preventDefault();
+    renderResults(currentPrefs());
+  });
+  document.getElementById('fundSearch').addEventListener('input', renderFunds);
+  document.getElementById('statusFilter').addEventListener('change', renderFunds);
+  document.getElementById('managerFilter').addEventListener('change', renderFunds);
+  document.getElementById('calcBtn').addEventListener('click', () => calcObligation('c-tutar','calcResult'));
+  document.getElementById('hcalcBtn').addEventListener('click', () => calcObligation('hc-tutar','hcalcResult'));
+
+  // ---- Başlat ----
+  renderResults(currentPrefs());
+  calcObligation('c-tutar','calcResult');
+  calcObligation('hc-tutar','hcalcResult');
+  renderFaq();
+  route();
+  loadFunds();
+  loadStats();
+</script>
+
+</body>
+</html>
