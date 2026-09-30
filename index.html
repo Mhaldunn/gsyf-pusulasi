@@ -76,17 +76,65 @@
   main[data-view].visible{display:block;}
 
   /* Hero */
-  .hero{padding:64px 0 40px; text-align:center;}
+  .hero{padding:64px 24px 40px; text-align:center; position:relative; isolation:isolate; overflow:hidden;}
   .hero p.lead{max-width:640px; margin:0 auto 1.8em; color:var(--muted); font-size:1.1rem;}
-  .hero-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:48px;}
+  .hero-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:40px;}
+
+  /* Dekoratif animasyonlu arka plan lekeleri */
+  .hero-blobs{position:absolute; inset:0; z-index:-1; pointer-events:none;}
+  .blob{position:absolute; border-radius:50%; filter:blur(60px); opacity:.30;}
+  .blob-1{width:360px; height:360px; background:radial-gradient(circle,var(--blue),transparent 70%); top:-140px; left:-100px; animation:drift1 15s ease-in-out infinite;}
+  .blob-2{width:300px; height:300px; background:radial-gradient(circle,var(--navy),transparent 70%); bottom:-120px; right:-80px; animation:drift2 17s ease-in-out infinite;}
+  @keyframes drift1{ 0%,100%{transform:translate(0,0);} 50%{transform:translate(34px,22px);} }
+  @keyframes drift2{ 0%,100%{transform:translate(0,0);} 50%{transform:translate(-28px,-18px);} }
+
+  /* Hero'daki çizilen büyüme grafiği (dekoratif, gerçek veri iddiası taşımaz) */
+  .hero-visual{max-width:620px; margin:0 auto 36px;}
+  .hero-visual svg{width:100%; height:auto; display:block;}
+  .hero-line{stroke-dasharray:1000; stroke-dashoffset:1000; animation:drawLine 1.8s cubic-bezier(.4,0,.2,1) forwards .25s;}
+  .hero-area{opacity:0; animation:fadeIn 1.1s ease forwards 1.3s;}
+  .hero-dot{fill:var(--navy); opacity:0; transform-box:fill-box; transform-origin:center; animation:popDot .5s ease forwards;}
+  .hero-dot:nth-of-type(1){animation-delay:.75s;}
+  .hero-dot:nth-of-type(2){animation-delay:1.05s;}
+  .hero-dot:nth-of-type(3){animation-delay:1.35s;}
+  .hero-dot:nth-of-type(4){animation-delay:1.65s; fill:var(--blue);}
+  @keyframes drawLine{ to{stroke-dashoffset:0;} }
+  @keyframes fadeIn{ to{opacity:1;} }
+  @keyframes popDot{ from{opacity:0; transform:scale(0);} to{opacity:1; transform:scale(1);} }
 
   .stats{
     display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin:0 auto 20px; max-width:960px;
   }
-  .stat{text-align:center; padding:18px 10px; background:var(--card); border-radius:14px; border:1px solid var(--border);}
+  .stat{
+    text-align:center; padding:20px 10px 18px; background:var(--card); border-radius:14px; border:1px solid var(--border);
+    opacity:0; transform:translateY(14px) scale(.97); animation:popIn .5s ease forwards;
+  }
+  .stat:nth-child(1){animation-delay:.05s;}
+  .stat:nth-child(2){animation-delay:.15s;}
+  .stat:nth-child(3){animation-delay:.25s;}
+  .stat:nth-child(4){animation-delay:.35s;}
+  @keyframes popIn{ to{opacity:1; transform:translateY(0) scale(1);} }
+  .stat-icon{
+    width:30px; height:30px; margin:0 auto 8px; border-radius:9px;
+    background:linear-gradient(135deg,var(--navy),var(--blue)); display:flex; align-items:center; justify-content:center;
+  }
+  .stat-icon svg{width:16px; height:16px; stroke:#fff;}
   .stat b{display:block; font-size:1.6rem; color:var(--navy);}
   .stat span{color:var(--muted); font-size:.85rem;}
   .stats-source{text-align:center; color:var(--muted); font-size:.8rem; margin-bottom:56px;}
+
+  /* Kaydırmayla beliren genel giriş efekti */
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; transition-delay:var(--d,0s);}
+  .reveal.in-view{opacity:1; transform:translateY(0);}
+
+  @keyframes cardIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.001ms!important; animation-iteration-count:1!important;
+      transition-duration:.001ms!important; scroll-behavior:auto!important;
+    }
+  }
 
   /* Ticker */
   .ticker-wrap{overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:14px 0; margin-bottom:64px;}
@@ -97,9 +145,19 @@
 
   /* Features */
   .features{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:64px;}
-  .feature-card{padding:24px; border:1px solid var(--border); border-radius:14px; background:#fff;}
+  .feature-card{
+    padding:24px; border:1px solid var(--border); border-radius:14px; background:#fff;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .feature-card:hover{transform:translateY(-6px); box-shadow:0 16px 32px rgba(15,30,61,.1); border-color:#D7E2FF;}
   .feature-card h3{margin-bottom:.4em;}
   .feature-card p{color:var(--muted); margin:0; font-size:.95rem;}
+  .feature-icon{
+    width:44px; height:44px; border-radius:12px; margin-bottom:14px;
+    background:linear-gradient(135deg,var(--navy),var(--blue));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .feature-icon svg{width:22px; height:22px; stroke:#fff; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
 
   .cta-close{
     text-align:center; padding:48px 24px; background:var(--card); border-radius:18px; margin-bottom:56px;
@@ -122,7 +180,12 @@
   .finder-form .full{grid-column:1/-1; text-align:right;}
 
   .result-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:56px;}
-  .result-card{border:1px solid var(--border); border-radius:14px; padding:20px; background:#fff;}
+  .result-card{
+    border:1px solid var(--border); border-radius:14px; padding:20px; background:#fff;
+    transition:transform .2s ease, box-shadow .2s ease;
+    opacity:0; animation:cardIn .45s ease forwards; animation-delay:var(--d,0s);
+  }
+  .result-card:hover{transform:translateY(-4px); box-shadow:0 10px 24px rgba(15,30,61,.1);}
   .match-bar{height:6px; border-radius:4px; background:var(--border); overflow:hidden; margin:.6em 0;}
   .match-bar span{display:block; height:100%; background:linear-gradient(90deg,var(--navy),var(--blue));}
   .match-pct{font-weight:700; color:var(--blue);}
@@ -138,8 +201,12 @@
   }
   .filters input{flex:1; min-width:220px;}
   .fund-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:20px;}
-  .fund-card{border:1px solid var(--border); border-radius:14px; padding:20px; background:#fff; position:relative; cursor:pointer; transition:border-color .15s ease, box-shadow .15s ease;}
-  .fund-card:hover, .fund-card:focus-visible{border-color:var(--blue); box-shadow:0 4px 16px rgba(37,99,235,.1);}
+  .fund-card{
+    border:1px solid var(--border); border-radius:14px; padding:20px; background:#fff; position:relative; cursor:pointer;
+    transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    opacity:0; animation:cardIn .45s ease forwards; animation-delay:var(--d,0s);
+  }
+  .fund-card:hover, .fund-card:focus-visible{border-color:var(--blue); box-shadow:0 10px 24px rgba(37,99,235,.14); transform:translateY(-4px);}
   .fund-card .fname{
     font-weight:700; text-transform:uppercase; color:var(--navy); font-size:.95rem; padding-right:70px; margin-bottom:6px;
   }
@@ -216,7 +283,27 @@
   .footer-links{display:flex; gap:18px; flex-wrap:wrap; justify-content:center; margin-bottom:16px; font-size:.85rem;}
   .footer-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:.85rem; color:var(--muted);}
 
+  /* Sayfa görselleri (cam seti). Kenarlar maskeyle beyaza erir. */
+  .art{display:block; width:100%; height:auto; -webkit-mask-image:radial-gradient(ellipse 72% 72% at 50% 46%,#000 55%,transparent 100%); mask-image:radial-gradient(ellipse 72% 72% at 50% 46%,#000 55%,transparent 100%);}
+  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:32px; align-items:center; margin-bottom:36px; text-align:left;}
+  .hero-grid p.lead{margin-left:0;}
+  .hero-grid .hero-actions{justify-content:flex-start; margin-bottom:0;}
+  .hero-media .art{aspect-ratio:5/4; object-fit:cover; object-position:100% 50%;}
+  .ticker-wrap{position:relative;}
+  .ticker-bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.4; pointer-events:none; z-index:0;}
+  .ticker-track{position:relative; z-index:1;}
+  .calc-split{display:grid; grid-template-columns:1.35fr .65fr; gap:32px; align-items:center; margin-bottom:48px;}
+  .calc-split .calc-box{margin-bottom:0;}
+  .page-head.has-art{display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:center; text-align:left;}
+  .page-head.has-art p{margin:0;}
+  .detail-banner{margin:24px 0 0;}
+  .detail-banner .art{max-height:220px; object-fit:cover; object-position:50% 50%;}
+
   @media (max-width:860px){
+    .hero-grid, .calc-split, .page-head.has-art{grid-template-columns:1fr; gap:16px;}
+    .hero-media .art{aspect-ratio:16/10; object-position:90% 50%;}
+    .calc-split .art{max-width:280px; margin:0 auto;}
+    .page-head.has-art .art{max-width:520px; margin:0 auto;}
     .stats{grid-template-columns:repeat(2,1fr);}
     .features{grid-template-columns:1fr;}
     .finder-form{grid-template-columns:1fr;}
@@ -245,28 +332,50 @@
 <!-- #home -->
 <main data-view="home">
   <section class="hero wrap">
+    <div class="hero-blobs" aria-hidden="true"><span class="blob blob-1"></span><span class="blob blob-2"></span></div>
+
+    <div class="hero-grid">
+    <div class="hero-copy">
     <h1>Girişim Sermayesi Yatırım Fonlarında<br><span class="accent">doğru yönü bulun.</span></h1>
     <p class="lead">GSYF Pusulası; SPK kayıtlı girişim sermayesi yatırım fonlarını, %3 zorunlu yatırım yükümlülüğünü ve fon seçim kriterlerini tek bir yerde toplayan bağımsız bir bilgi platformudur.</p>
     <div class="hero-actions">
       <a href="#bulucu" class="btn btn-primary">Fon Bulucu'yu Dene</a>
       <a href="#fonlar" class="btn btn-outline">Fon Listesine Göz At</a>
     </div>
+        </div>
+    <div class="hero-media">
+      <img class="art" src="assets/hero.webp" width="1280" height="720" fetchpriority="high" decoding="async" alt="Yükselen bir grafiğin önünde duran cam pusula; iğnesi mavi ışıkla parlıyor.">
+    </div>
+    </div>
 
     <div class="stats" id="heroStats">
-      <div class="stat"><b id="heroFundCount">—</b><span>SPK onaylı GSYF</span></div>
-      <div class="stat"><b id="heroTotalSize">—</b><span>toplam fon büyüklüğü</span></div>
-      <div class="stat"><b id="heroQualifiedInvestors">—</b><span>nitelikli yatırımcı</span></div>
-      <div class="stat"><b id="heroTarget2026">—</b><span>2026 sektör hedefi</span></div>
+      <div class="stat">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V7l8-4 8 4v14M9 21v-6h6v6"/></svg></div>
+        <b><span class="num" id="heroFundCount">0</span></b><span>SPK onaylı GSYF</span>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8M21 7h-6v6"/></svg></div>
+        <b><span class="num" id="heroTotalSize">0</span> mlyr ₺</b><span>toplam fon büyüklüğü</span>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg></div>
+        <b><span class="num" id="heroQualifiedInvestors">0</span></b><span>nitelikli yatırımcı</span>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".5" fill="#fff"/></svg></div>
+        <b><span class="num" id="heroTarget2026">0</span> mlyr ₺</b><span>2026 sektör hedefi</span>
+      </div>
     </div>
     <div class="stats-source" id="heroStatsSource"></div>
   </section>
 
   <div class="ticker-wrap">
+    <img class="ticker-bg" src="assets/ticker.webp" width="1680" height="720" loading="lazy" decoding="async" alt="" aria-hidden="true">
     <div class="ticker-track" id="tickerTrack"></div>
   </div>
 
-  <section class="wrap">
-    <div class="calc-box">
+  <section class="wrap calc-split">
+    <div class="calc-box reveal">
       <h3>%3 Zorunlu Yatırım <span class="accent">Hesaplayıcı</span></h3>
       <p>Ar-Ge/teknokent kazanç istisnasından yararlanan kurumlar, yıllık istisna tutarı 2.000.000 ₺'yi aşıyorsa bunun %3'ünü GSYF/GSYO'ya yatırmakla yükümlüdür.</p>
       <div class="calc-row">
@@ -279,36 +388,43 @@
       <div id="hcalcResult"></div>
       <a href="#rehber" class="calc-more-link">Detaylı rehberi oku →</a>
     </div>
+    <img class="art" src="assets/yukumluluk.webp" width="1080" height="1080" loading="lazy" decoding="async" alt="Cam bir yüzde işareti; yanında üst üste dizilmiş şeffaf belgeler ve bir cam hesap makinesi.">
   </section>
 
   <section class="wrap features">
-    <div class="feature-card">
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></div>
       <h3>SPK Kayıtlı Kaynak</h3>
       <p>Fon listesi Sermaye Piyasası Kurulu'nun resmi kayıtlarına dayanır, uydurma veri kullanılmaz.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 8l-3 6a4 4 0 0 0 6 0zM19 8l-3 6a4 4 0 0 0 6 0zM5 8h14M9 21h6"/></svg></div>
       <h3>Bağımsız Bilgi Platformu</h3>
       <p>Herhangi bir fonun satışını yapmayız; yatırım tavsiyesi veya aracılık hizmeti sunmayız.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
       <h3>Fon Bulucu</h3>
       <p>Sektör, bütçe, risk toleransı ve dışa açıklık tercihinize göre ağırlıklı puanlama ile eşleştirme yapar.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.3"/><circle cx="17" cy="17" r="2.3"/><path d="M18 6L6 18"/></svg></div>
       <h3>%3 Yükümlülük Rehberi</h3>
       <p>Ar-Ge/teknokent kazanç istisnasından yararlananlar için zorunlu yatırım tutarını hesaplayın.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div>
       <h3>Güncel Fon Listesi</h3>
       <p>Arama ve durum filtresiyle kayıtlı fonlar arasında hızlıca gezinin.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
       <h3>Şeffaf Metodoloji</h3>
       <p>Fon Bulucu'nun puanlama ağırlıkları (sektör, bütçe, risk, dışa açıklık) açıkça paylaşılır.</p>
     </div>
   </section>
 
-  <section class="wrap cta-close">
+  <section class="wrap cta-close reveal">
     <h2>Uygun fonu bulmaya hazır mısınız?</h2>
     <p>İki dakikada, ihtiyacınıza en yakın örnek fon profillerini görün.</p>
     <a href="#bulucu" class="btn btn-primary">Fon Bulucu'yu Başlat</a>
@@ -317,9 +433,12 @@
 
 <!-- #bulucu -->
 <main data-view="bulucu">
-  <section class="wrap page-head">
+  <section class="wrap page-head has-art">
+    <div class="page-head-text">
     <h2>Fon <span class="accent">Bulucu</span></h2>
     <p>Tercihlerinizi girin, ağırlıklı puanlama ile en uygun örnek fon profillerini görün: sektör %40, bütçe %25, risk %20, dışa açıklık %15.</p>
+    </div>
+    <img class="art" src="assets/bulucu.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Cam bir huni, parçacıkları süzüp tek bir parlak mavi küreye indiriyor; çevresinde çubuk grafikli buzlu cam kartlar süzülüyor.">
   </section>
 
   <section class="wrap">
@@ -370,9 +489,12 @@
 
 <!-- #fonlar -->
 <main data-view="fonlar">
-  <section class="wrap page-head">
+  <section class="wrap page-head has-art">
+    <div class="page-head-text">
     <h2>Kayıtlı <span class="accent">Fonlar</span></h2>
     <p>SPK'nın ihraç belgesi onayladığı girişim sermayesi yatırım fonlarının tam listesi.</p>
+    </div>
+    <img class="art" src="assets/fonlar.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Perspektifte dizilmiş buzlu cam fon kartları; biri havaya kalkmış ve mavi ışıkla parlıyor.">
   </section>
 
   <section class="wrap">
@@ -398,8 +520,11 @@
 
 <!-- #hakkimizda -->
 <main data-view="hakkimizda">
-  <section class="wrap page-head">
+  <section class="wrap page-head has-art">
+    <div class="page-head-text">
     <h2>Hakkımızda</h2>
+    </div>
+    <img class="art" src="assets/hakkimizda.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Türkiye ana hatları mavi ışıkla vurgulanmış cam bir küre ve çevresinde dönen iki ince halka.">
   </section>
 
   <section class="wrap">
@@ -420,9 +545,12 @@
 
 <!-- #iletisim -->
 <main data-view="iletisim">
-  <section class="wrap page-head">
+  <section class="wrap page-head has-art">
+    <div class="page-head-text">
     <h2>İletişim</h2>
     <p>Sorularınız için aşağıdaki bilgilerden ulaşabilirsiniz.</p>
+    </div>
+    <img class="art" src="assets/hakkimizda.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Türkiye ana hatları mavi ışıkla vurgulanmış cam bir küre ve çevresinde dönen iki ince halka.">
   </section>
 
   <section class="wrap">
@@ -470,9 +598,12 @@
 
 <!-- #sss -->
 <main data-view="sss">
-  <section class="wrap page-head">
+  <section class="wrap page-head has-art">
+    <div class="page-head-text">
     <h2>Sık Sorulan <span class="accent">Sorular</span></h2>
     <p>GSYF Pusulası ve girişim sermayesi yatırım fonları hakkında en çok merak edilenler.</p>
+    </div>
+    <img class="art" src="assets/sss.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Farklı yüksekliklerde süzülen cam konuşma balonları; biri hafifçe mavi parlıyor.">
   </section>
 
   <section class="wrap">
@@ -581,6 +712,49 @@
     return copy.slice(0, n);
   }
 
+  // ---- Motion: sayaç animasyonu, kaydırmayla belirme ----
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function animateCount(el, target, decimals){
+    decimals = decimals || 0;
+    if (!el) return;
+    target = Number(target) || 0;
+    if (prefersReducedMotion){
+      el.textContent = target.toLocaleString('tr-TR', { maximumFractionDigits: decimals });
+      return;
+    }
+    const duration = 1100;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * eased).toLocaleString('tr-TR', { maximumFractionDigits: decimals });
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toLocaleString('tr-TR', { maximumFractionDigits: decimals });
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const revealObserver = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 }) : null;
+
+  function observeReveals(root){
+    root = root || document;
+    const els = root.querySelectorAll('.reveal:not([data-observed])');
+    els.forEach((el, i) => {
+      el.setAttribute('data-observed', '1');
+      el.style.setProperty('--d', (i % 6) * 0.08 + 's');
+      if (revealObserver) revealObserver.observe(el);
+      else el.classList.add('in-view');
+    });
+  }
+
   // ---- Veriyi yükle ----
   async function loadFunds(){
     try{
@@ -591,7 +765,7 @@
       REAL_FUNDS = [];
     }
     const heroCount = document.getElementById('heroFundCount');
-    if (heroCount) heroCount.textContent = REAL_FUNDS.length ? REAL_FUNDS.length : '—';
+    if (heroCount) animateCount(heroCount, REAL_FUNDS.length, 0);
     populateManagerFilter();
     renderTicker();
     renderFunds();
@@ -607,10 +781,6 @@
   }
 
   // ---- Hero istatistikleri (data/stats.json) ----
-  function formatBillion(n){
-    return Number(n).toLocaleString('tr-TR', { maximumFractionDigits: 1 }) + ' mlyr ₺';
-  }
-
   async function loadStats(){
     const statsEl = document.getElementById('heroStats');
     const sourceEl = document.getElementById('heroStatsSource');
@@ -618,9 +788,9 @@
       const res = await fetch('data/stats.json');
       if (!res.ok) throw new Error('stats.json yüklenemedi');
       const s = await res.json();
-      document.getElementById('heroTotalSize').textContent = formatBillion(s.totalSizeBillionTRY);
-      document.getElementById('heroQualifiedInvestors').textContent = Number(s.qualifiedInvestors).toLocaleString('tr-TR');
-      document.getElementById('heroTarget2026').textContent = formatBillion(s.target2026BillionTRY);
+      animateCount(document.getElementById('heroTotalSize'), s.totalSizeBillionTRY, 1);
+      animateCount(document.getElementById('heroQualifiedInvestors'), s.qualifiedInvestors, 0);
+      animateCount(document.getElementById('heroTarget2026'), s.target2026BillionTRY, 1);
       sourceEl.innerHTML = `Fon sayısı SPK'nın güncel GSYF listesinden; diğer rakamların kaynağı <a href="${escapeHtml(s.sourceUrl)}" target="_blank" rel="noopener">${escapeHtml(s.sourceLabel)}</a>, ${escapeHtml(s.asOf)} sektör verileridir. Bu sayfa yatırım tavsiyesi niteliği taşımaz.`;
     } catch(e){
       if (statsEl) statsEl.hidden = true;
@@ -666,8 +836,8 @@
       return matchQ && matchS && matchM;
     });
     document.getElementById('fundCount').textContent = `${list.length} fon gösteriliyor`;
-    document.getElementById('fundGrid').innerHTML = list.map(f => `
-      <div class="fund-card" tabindex="0" role="link" data-hash="#fon-${fundSlug(f)}">
+    document.getElementById('fundGrid').innerHTML = list.map((f, i) => `
+      <div class="fund-card" tabindex="0" role="link" data-hash="#fon-${fundSlug(f)}" style="--d:${(i % 9) * 0.05}s">
         <span class="status-badge tag-active">${escapeHtml(f.status)}</span>
         <div class="fname">${escapeHtml(f.name)}</div>
         ${f.code ? `<div class="code">${escapeHtml(f.code)}</div>` : ''}
@@ -711,6 +881,7 @@
 
     container.innerHTML = `
       <div class="wrap">
+        <div class="detail-banner"><img class="art" src="assets/detay.webp" width="1680" height="720" loading="lazy" decoding="async" alt="Veri satırları ve halka göstergesi olan dik bir buzlu cam panel; çapraz yükselen parlak mavi bir çizgi."></div>
         <a href="#fonlar" class="back-link">← Fonlara dön</a>
 
         <div class="fund-detail-header">
@@ -811,8 +982,8 @@
       .map(f => ({ fund:f, score: scoreFund(f, prefs) }))
       .sort((a,b) => b.score - a.score)
       .slice(0, 6);
-    document.getElementById('resultGrid').innerHTML = ranked.map(r => `
-      <div class="result-card">
+    document.getElementById('resultGrid').innerHTML = ranked.map((r, i) => `
+      <div class="result-card" style="--d:${i * 0.06}s">
         <h3>${r.fund.name}</h3>
         <div class="match-pct">%${r.score} uyum</div>
         <div class="match-bar"><span style="width:${r.score}%"></span></div>
@@ -872,6 +1043,7 @@
   route();
   loadFunds();
   loadStats();
+  observeReveals();
 </script>
 
 </body>
